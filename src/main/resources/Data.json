@@ -1,0 +1,32 @@
+{
+	"CT01": {
+		"statusCode": "200",
+		"path": "mensagem",
+		"message": "O CPF %s possui restrição"
+	},
+	"CT02": {
+		"statusCode": "204",
+		"path": "",
+		"message": ""
+	},
+	"CT03": {
+		"statusCode": "201",
+		"path": "",
+		"message": ""
+	},
+	"CT04": {
+		"statusCode": "200",
+		"path": "",
+		"message": ""
+	},
+	"CT05": {
+		"statusCode": "200",
+		"path": "",
+		"message": ""
+	},
+	"CT06": {
+		"statusCode": "204",
+		"path": "",
+		"message": ""
+	}
+}
