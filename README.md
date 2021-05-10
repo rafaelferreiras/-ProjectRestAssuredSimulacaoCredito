@@ -12,7 +12,7 @@
 
 ## Tecnológias
 O projeto é criado com:
-* JavaSE 1.8
+* Java 11
 * RestAssured 4.3.0
 * TestNG 7.3.0
 * Gson 2.8.6
