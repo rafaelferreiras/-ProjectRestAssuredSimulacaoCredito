@@ -1,12 +1,12 @@
 package br.com.rafaelferreira.rest.test;
 
 import static br.com.rafaelferreira.util.UtilitiesTest.getListFullByJsonPath;
-import static br.com.rafaelferreira.validate.Validator.*;
-import static br.com.rafaelferreira.validate.Validator.validaBodyAlert;
-import static br.com.rafaelferreira.validate.Validator.validaList;
-import static br.com.rafaelferreira.validate.Validator.validaStatusCode;
+import static br.com.rafaelferreira.validate.Acceptance.validaBody;
+import static br.com.rafaelferreira.validate.Acceptance.validaBodyAlert;
+import static br.com.rafaelferreira.validate.Acceptance.validaDelete;
+import static br.com.rafaelferreira.validate.Acceptance.validaList;
+import static br.com.rafaelferreira.validate.Acceptance.validaStatusCode;
 
-import org.json.simple.JSONObject;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -15,87 +15,93 @@ import br.com.rafaelferreira.config.ConfigurationManager;
 import br.com.rafaelferreira.core.BaseTest;
 import br.com.rafaelferreira.data.DataFactory;
 import br.com.rafaelferreira.util.Utilities;
+import br.com.rafaelferreira.validate.Acceptance;
 
 public class SimulacaoCreditoTest extends BaseTest {
 
 	private DataFactory data;
-	private JSONObject jsonObject;
 	private Utilities util;
-
-	private static Configuration configuration;
+	private static Configuration configLocal;
 
 	@BeforeMethod
 	public void beforeMethod() {
 
 		data = new DataFactory();
 		util = new Utilities();
+		
 
-		configuration = ConfigurationManager.getConfiguration();
-		util.getDataFile("Data.json");
+		configLocal = ConfigurationManager.getConfiguration();
+		util.getDataFile("data.json");
+
+	}
+
+	public void initTest(String ct) {
+
+		new Acceptance(util.getDataGroup(ct));
+		 
 
 	}
 
 	@Test
 	public void CT_01_getCPFComRestricao() {
 
-		jsonObject = util.getDataGroup("CT01");
-		get(configuration.restricoes() + data.makeRandom(configuration.CPFRestricoes()));
-		validaBodyAlert(jsonObject, data.getGenericValue(), response.jsonPath().get((String) jsonObject.get("path")));
-		validaStatusCode(jsonObject, response.getStatusCode());
+		initTest("CT01");
+		get(configLocal.restricoes().concat(data.makeRandom(configLocal.CPFRestricoes())));
+			validaBodyAlert(data.getGenericValue(), response.jsonPath().get(configLocal.pathAlert()));
+			validaStatusCode(response.getStatusCode());
 
 	}
 
 	@Test
 	public void CT_02_getCPFSemRestricao() {
 
-		jsonObject = util.getDataGroup("CT02");
-		get(configuration.restricoes().concat(data.createSimulacao().getCpf()));
-		validaStatusCode(jsonObject, response.getStatusCode());
+		initTest("CT02");
+		get(configLocal.restricoes().concat(data.createSimulacao().getCpf()));
+			validaStatusCode(response.getStatusCode());
 
 	}
 
 	@Test
 	public void CT_03_postSimulacao() {
 
-		jsonObject = util.getDataGroup("CT03");
-		post(configuration.simulacoes(), data.createSimulacao());
-		validaBody(getListFullByJsonPath(response), data.getSimulacao());
-		validaStatusCode(jsonObject, response.getStatusCode());
+		initTest("CT03");
+		post(configLocal.simulacoes(), data.createSimulacao());
+			validaBody(getListFullByJsonPath(response), data.getSimulacao());
+			validaStatusCode(response.getStatusCode());
 
 	}
 
 	@Test
 	public void CT_04_putSimulacao() {
 
-		jsonObject = util.getDataGroup("CT04");
-
-		put(configuration.simulacoes().concat(data.getSimulacaoOnAttribute().getCpf()), data.createSimulacao());
-		validaBody(getListFullByJsonPath(response), data.getSimulacao());
-		validaStatusCode(jsonObject, response.getStatusCode());
+		initTest("CT04");
+		put(configLocal.simulacoes().concat(data.getSimulacaoOnAttribute().getCpf()), data.createSimulacao());
+			validaBody(getListFullByJsonPath(response), data.getSimulacao());
+			validaStatusCode(response.getStatusCode());
 
 	}
 
 	@Test
 	public void CT_05_getSimulacao() {
 
-		jsonObject = util.getDataGroup("CT05");
-
-		get(configuration.simulacoes());
-		validaList(response);
-		validaStatusCode(jsonObject, response.getStatusCode());
+		initTest("CT05");
+		get(configLocal.simulacoes());
+			validaList(response);
+			validaStatusCode(response.getStatusCode());
 
 	}
 
 	@Test
 	public void CT_06_deleteSimulacao() {
 
-		jsonObject = util.getDataGroup("CT06");
+		initTest("CT06");
 		String id = data.getSimulacaoOnAttribute().getId();
+		System.out.println("olha eu aqui>>>>>"+id);
 
-		delete(configuration.simulacoes().concat(id));
-		validaStatusCode(jsonObject, response.getStatusCode());
-		get(configuration.simulacoes());
-		validaDelete(response, id);
+		delete(configLocal.simulacoes().concat(id));
+			validaStatusCode(response.getStatusCode());
+		get(configLocal.simulacoes()); // -> usado para buscar todos os registro para valida o delete
+			validaDelete(response, id);
 
 	}
 

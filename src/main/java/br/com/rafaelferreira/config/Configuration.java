@@ -20,17 +20,20 @@ public interface Configuration extends Config {
 	@Key("simulacoes")
 	String simulacoes();
 
-	@Key("ValueMax")
-	int ValueMax();
+	@Key("pathAlert")
+	String pathAlert();
 
-	@Key("ValueMin")
-	int ValueMin();
+	@Key("valueMax")
+	int valueMax();
 
-	@Key("ValueMaxParcela")
-	int ValueMaxParcela();
+	@Key("valueMin")
+	int valueMin();
 
-	@Key("ValueMinParcela")
-	int ValueMinParcela();
+	@Key("valueMaxParcela")
+	int valueMaxParcela();
+
+	@Key("valueMinParcela")
+	int valueMinParcela();
 
 	@Key("CPFComRestricoes")
 	String[] CPFRestricoes();

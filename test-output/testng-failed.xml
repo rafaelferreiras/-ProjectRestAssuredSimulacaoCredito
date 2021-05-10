@@ -6,13 +6,10 @@
       <class name="br.com.rafaelferreira.rest.test.SimulacaoCreditoTest">
         <methods>
           <include name="CT_01_getCPFComRestricao"/>
-          <include name="CT_02_getCPFSemRestricao"/>
           <include name="CT_06_deleteSimulacao"/>
           <include name="setup"/>
-          <include name="CT_05_getSimulacao"/>
           <include name="CT_04_putSimulacao"/>
           <include name="beforeMethod"/>
-          <include name="CT_03_postSimulacao"/>
         </methods>
       </class> <!-- br.com.rafaelferreira.rest.test.SimulacaoCreditoTest -->
     </classes>

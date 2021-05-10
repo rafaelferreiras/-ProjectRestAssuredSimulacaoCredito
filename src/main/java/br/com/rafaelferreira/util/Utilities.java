@@ -13,7 +13,7 @@ import org.json.simple.parser.ParseException;
 public class Utilities {
 
 	// criando um objeto json que vai receber os dados do arquivo json
-	JSONObject jsonDataObject;
+	private JSONObject jsonDataObject;
 
 	public Utilities() {
 

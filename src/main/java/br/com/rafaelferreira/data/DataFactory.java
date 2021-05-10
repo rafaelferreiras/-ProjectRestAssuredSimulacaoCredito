@@ -53,8 +53,8 @@ public class DataFactory {
 
 		return simulacao = new SimulacaoCreditoBuilder().cpf(cpf.geraCPFFinal()).nome(faker.name().firstName())
 				.email(faker.internet().emailAddress())
-				.valor(valueRandomOnLimit(configuration.ValueMin(), configuration.ValueMax()))
-				.parcelas(valueRandomOnLimit(configuration.ValueMinParcela(), configuration.ValueMaxParcela()))
+				.valor(valueRandomOnLimit(configuration.valueMin(), configuration.valueMax()))
+				.parcelas(valueRandomOnLimit(configuration.valueMinParcela(), configuration.valueMaxParcela()))
 				.seguro(faker.random().nextBoolean()).build();
 
 	}

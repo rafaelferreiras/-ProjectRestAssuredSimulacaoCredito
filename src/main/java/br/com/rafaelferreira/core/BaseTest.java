@@ -9,11 +9,14 @@ import static io.restassured.RestAssured.requestSpecification;
 import static io.restassured.RestAssured.responseSpecification;
 import static org.hamcrest.Matchers.lessThan;
 
+import org.json.simple.JSONObject;
 import org.testng.annotations.BeforeClass;
 
 import br.com.rafaelferreira.config.Configuration;
 import br.com.rafaelferreira.config.ConfigurationManager;
+import br.com.rafaelferreira.data.DataFactory;
 import br.com.rafaelferreira.endpoint.SimulacaoCreditoEndpoint;
+import br.com.rafaelferreira.util.Utilities;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -27,7 +30,7 @@ public class BaseTest {
 	protected Response response;
 
 	@BeforeClass
-	public static void setup() {
+	public void setup() {
 
 		baseURI = SimulacaoCreditoEndpoint.APP_URL_BASE.getUrl();
 		port = configuration.portHttp();
@@ -44,38 +47,24 @@ public class BaseTest {
 
 	public Response get(String resources) {
 
-		return response = 
-				given()
-				.when()
-				.get(resources);
+		return response = given().when().get(resources);
 	}
 
 	public Response post(String resources, Object object) {
 
-		return response = 
-				given()
-				.body(object)
-				.when()
-				.post(resources);
+		return response = given().body(object).when().post(resources);
 
 	}
 
 	public Response put(String resources, Object object) {
 
-		return response = 
-				given()
-				.body(object)
-				.when()
-				.put(resources);
+		return response = given().body(object).when().put(resources);
 
 	}
-	
+
 	public Response delete(String resources) {
 
-		return response = 
-				given()
-				.when()
-				.delete(resources);
+		return response = given().when().delete(resources);
 
 	}
 

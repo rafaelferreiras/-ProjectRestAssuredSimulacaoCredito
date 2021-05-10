@@ -8,13 +8,20 @@ import org.json.simple.JSONObject;
 
 import io.restassured.response.Response;
 
-public class Validator {
+public class Acceptance {
 
-	public static void validaBodyAlert(JSONObject jsonObject, String genericValue, String getBody) {
+	private static JSONObject jsonObject;
+
+	public Acceptance(JSONObject jsonObject) {
+
+		Acceptance.jsonObject = jsonObject;
+	}
+
+	public static void validaBodyAlert(String genericValue, String getBody) {
 
 		try {
 
-			assertEquals(getBody, String.format((String) jsonObject.get("message"), genericValue));
+			assertEquals(getBody, String.format((String)jsonObject.get("message"), genericValue));
 
 		} catch (AssertionError e) {
 			System.out.println(e.getMessage());
@@ -36,7 +43,7 @@ public class Validator {
 
 	}
 
-	public static void validaStatusCode(JSONObject jsonObject, int statusLine) {
+	public static void validaStatusCode(int statusLine) {
 
 		try {
 
@@ -52,28 +59,22 @@ public class Validator {
 
 		try {
 
-			response
-			.then()
-			.body("$", hasSize(greaterThan(0)))
-			.body("findAll { it.valor < 1000 && it.valor > 40000 }",hasSize(0))
-			.body("findAll { it.parcelas < 2 && it.parcelas > 48 }",hasSize(0));
-			
+			response.then().body("$", hasSize(greaterThan(0)))
+					.body("findAll { it.valor < 1000 && it.valor > 40000 }", hasSize(0))
+					.body("findAll { it.parcelas < 2 && it.parcelas > 48 }", hasSize(0));
+
 		} catch (AssertionError e) {
 			System.out.println(e.getMessage());
 			throw new RuntimeException();
 		}
 	}
-	
-	public static void validaDelete(Response response,String id) {
+
+	public static void validaDelete(Response response, String id) {
 
 		try {
 
-			response
-			.then()
-			.body("findAll { it.id == "+id+"}",hasSize(0));
-			
-			
-			
+			response.then().body("findAll { it.id == " + id + "}", hasSize(0));
+
 		} catch (AssertionError e) {
 			System.out.println(e.getMessage());
 			throw new RuntimeException();
